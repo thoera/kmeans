@@ -105,6 +105,8 @@ Ici également, deux arguments optionnels sont proposés :
 * le nombre de clusters avec l'argument `--n_clusters` (3 par défaut) ;
 * le fait de créer un graphique pour chacune des étapes de l'algorithme avec le flag `--plot` (ou `-p`).
 
+Le script `05-kmeans_ggplot2.R` s'utilise de façon identique. La seule différence étant que les graphiques sont réalisés avec le package `ggplot2`. 
+
 # Arborescence
 
 ```
@@ -118,4 +120,5 @@ kmeans
 |__ 02-kmeans_numpy.py
 |__ 03-kmeans_sklearn.py
 |__ 04-kmeans.R
+|__ 05-kmeans_ggplot2.R
 ```

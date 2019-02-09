@@ -9,6 +9,7 @@
 # ------------------------------------------------------------------------------
 
 library("argparser")
+library("ggplot2")
 
 parser <- arg_parser("K-means")
 parser <- add_argument(parser, "file", type = "character",
@@ -51,43 +52,46 @@ compute_centers <- function(points, labels) {
   )
 }
 
-plot_kmeans <- function(points, labels, centers, name, ...) {
-  png(paste0("plots/figure_", name, ".png"),
-      width = 1280, height = 800, res = 100)
-  plot(points, type = "p", pch = 19L, cex = 1.5, col = colors[labels],
-       bty = "n", axes = FALSE, xlab = "", ylab = "", ...)
-  points(centers, type = "p", col = "white",
-         bg = centers_colors, pch = 21L, cex = 3.5, lwd = 1.5)
-  dev.off()
+plot_kmeans <- function(points, labels, centers, name, title = NULL) {
+  ggplot(data = data.frame(centers), aes(x = X1, y = X2)) +
+    geom_point(data = data.frame(points), aes(x = X1, y = X2),
+               size = 3L, alpha = 0.3, color = colors[labels]) +
+    geom_point(size = 8L, color = "#FFFFFF") +
+    geom_point(size = 7L, color = centers_colors) +
+    labs(title = title) +
+    theme_void() +
+    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  ggsave(filename = paste0("plots/figure_", name, ".png"),
+         width = 8L, height = 5L)
 }
 
 kmeans <- function(points, n_clusters) {
   centers <- points[sample.int(n = nrow(points), size = n_clusters), ]
-  step <- 1L
-
+  step = 1L
+  
   while (TRUE) {
     old_centers <- centers
     labels <- compute_labels(points, centers)
     centers <- compute_centers(points, labels)
-
+    
     if (all(centers == old_centers)) {
       break
     }
-
+    
     if (isTRUE(args[["plot"]])) {
       plot_kmeans(points, labels, old_centers,
                   name = paste0(step, "_a"),
-                  main = paste0("Itération ", step,
-                                " : Affectation des points ",
-                                "au centre le plus proche"))
+                  title = paste0("Itération ", step,
+                                 " : Affectation des points ",
+                                 "au centre le plus proche"))
       plot_kmeans(points, labels, centers,
-                  name = paste0(step, "_b"),
-                  main = paste0("Itération ", step,
-                                " : Ajustement des centres"))
+                  name = paste0(step, "_a"),
+                  title = paste0("Itération ", step,
+                                 " : Ajustement des centres"))
     }
     step <- step + 1L
   }
-
+  
   return(list(labels = labels, centers = centers))
 }
 
@@ -97,14 +101,15 @@ set.seed(1707)
 centers <- points[sample.int(n = nrow(points), size = args[["n_clusters"]]), ]
 
 if (isTRUE(args[["plot"]])) {
-  png("plots/figure_0.png", width = 1280, height = 800, res = 100)
-  plot(points, type = "p", pch = 19L, cex = 1.5,
-       col = rgb(red = 0L, green = 0L, blue = 0L, alpha = 0.3),
-       bty = "n", axes = FALSE, xlab = "", ylab = "",
-       main = "Initialisation")
-  points(centers, type = "p", col = "white",
-         bg = centers_colors, pch = 21L, cex = 3.5, lwd = 1.5)
-  invisible(dev.off())
+  ggplot(data = data.frame(centers), aes(x = X1, y = X2)) +
+    geom_point(data = data.frame(points), aes(x = X1, y = X2),
+               size = 3L, alpha = 0.3) +
+    geom_point(size = 8L, color = "#FFFFFF") +
+    geom_point(size = 7L, color = centers_colors) +
+    labs(title = "Initialisation") +
+    theme_void() +
+    theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+  ggsave(filename = "plots/figure_0.png", width = 8L, height = 5L)
 }
 
 set.seed(1707)

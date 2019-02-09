@@ -55,7 +55,7 @@ def compute_centers(points, labels):
             for label in centers]
 
 
-def plot_kmeans(points, labels, centers, title=None, name=None):
+def plot_kmeans(points, labels, centers, name, title=None):
     plt.figure(figsize=(16, 10))
     plt.scatter(*zip(*points), alpha=0.3,
                 c=labels, cmap=matplotlib.colors.ListedColormap(colors))
