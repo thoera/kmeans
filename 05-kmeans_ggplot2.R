@@ -67,7 +67,7 @@ plot_kmeans <- function(points, labels, centers, name, title = NULL) {
 
 kmeans <- function(points, n_clusters) {
   centers <- points[sample.int(n = nrow(points), size = n_clusters), ]
-  step = 1L
+  step <- 1L
   
   while (TRUE) {
     old_centers <- centers
