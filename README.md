@@ -1,3 +1,14 @@
+<!-- 
+---
+title: K-means 
+output: pdf_document
+geometry: "left=4cm,right=4cm,top=1.5cm,bottom=2cm"
+numbersections: true
+---
+ -->
+
+<!-- pandoc README.md -o README.pdf --variable urlcolor=blue --highlight-style tango -->
+
 ![kmeans](plots/kmeans.gif)
 
 # Objectif
@@ -34,15 +45,16 @@ Pour exécuter l'algorithme des K-means écrit en "pur" Python, il suffit simple
 python 01-kmeans.py data/<file>
 ```
 
-Deux paramètres optionnels peuvent être précisés :
+Trois paramètres optionnels peuvent être précisés :
 
 * le nombre de clusters avec l'argument `--n_clusters` (3 par défaut) ;
+* le nombre maximum d'itérations de l'algorithme avec l'argument `--max_iter` (20 par défaut) ;
 * le fait de créer un graphique pour chacune des étapes de l'algorithme avec le flag `--plot` (ou `-p`).
 
-Par exemple, pour créer 4 clusters et activer la représentation graphique :
+Par exemple, pour créer 4 clusters, stoper l'algorithme après 10 itérations même en l'absence de convergence et activer la représentation graphique :
 
 ```sh
-python 01-kmeans.py data/<file> --n_clusters 4 -p
+python 01-kmeans.py data/<file> --n_clusters 4 --max_iter 20 -p
 ```
 
 Les figures générées seront stockées dans le sous-répertoire `plots`.
@@ -72,7 +84,7 @@ L'exécution du script peut se faire avec la commande :
 python 02-kmeans_numpy.py data/<file>
 ```
 
-Tout comme précédemment, le nombre de clusters peut être modifié avec l'argument `--n_clusters` (3 par défaut).
+Tout comme précédemment, le nombre de clusters peut être modifié avec l'argument `--n_clusters` (3 par défaut) et le nombre maximum d'itérations avec `--max_iter` (20 par défaut).
 
 Pour profiler l’implémentation avec NumPy (après avoir ajouté le *decorator* `@profile` devant la fonction kmeans()):
 
@@ -88,9 +100,9 @@ Pour exécuter l’implémentation des K-means de scikit-learn :
 python 03-kmeans_sklearn.py data/<file>
 ```
 
-Comme pour les trois implémentations précédentes, le nombre de clusters peut être ajusté avec l'argument `--n_clusters` (3 par défaut).
+Comme pour les trois implémentations précédentes, le nombre de clusters peut être ajusté avec l'argument `--n_clusters` (3 par défaut) tout comme le nombre maximum d'itétarion avec `--max_iter` (20 par défaut).
 
-> *Dans cette implémentation, l'algorithme est -- par défaut -- répété 10 fois avec des centres initiaux différents. Le nombre d'itération maximum pour chaque répétition est limité à 300.*
+> *Dans cette implémentation, l'algorithme est -- par défaut -- répété 10 fois avec des centres initiaux différents.*
 
 # Implémentation des K-means en "base" R
 
@@ -100,9 +112,10 @@ L'implémentation en R s'exécute de façon très similaire :
 Rscript 04-kmeans.R data/<file>
 ```
 
-Ici également, deux arguments optionnels sont proposés :
+Ici également, trois arguments optionnels sont proposés :
 
 * le nombre de clusters avec l'argument `--n_clusters` (3 par défaut) ;
+* le nombre maximum d'itérations de l'algorithme `--max_iter` (20 par défaut) ;
 * le fait de créer un graphique pour chacune des étapes de l'algorithme avec le flag `--plot` (ou `-p`).
 
 Le script `05-kmeans_ggplot2.R` s'utilise de façon identique. La seule différence étant que les graphiques sont réalisés avec le package `ggplot2`. 

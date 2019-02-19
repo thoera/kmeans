@@ -18,6 +18,8 @@ parser.add_argument('file', type=str,
                     help='the file to use for the clustering')
 parser.add_argument('--n_clusters', nargs='?', const=3, default=3, type=int,
                     help='the number of clusters (default: 3)')
+parser.add_argument('--max_iter', nargs='?', const=20, default=20, type=int,
+                    help='the maximum number of iterations (default: 20)')
 args = parser.parse_args()
 
 
@@ -28,4 +30,5 @@ def load_data(file):
 
 points = load_data(file=args.file)
 
-km = KMeans(n_clusters=args.n_clusters, random_state=1707).fit(points)
+km = KMeans(n_clusters=args.n_clusters, max_iter=args.max_iter,
+            random_state=1707).fit(points)

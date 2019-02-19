@@ -19,6 +19,8 @@ parser.add_argument('file', type=str,
                     help='the file to use for the clustering')
 parser.add_argument('--n_clusters', nargs='?', const=3, default=3, type=int,
                     help='the number of clusters (default: 3)')
+parser.add_argument('--max_iter', nargs='?', const=20, default=20, type=int,
+                    help='the maximum number of iterations (default: 20)')
 args = parser.parse_args()
 
 
@@ -38,16 +40,18 @@ def compute_centers(points, labels):
                      for center in range(n_centers)])
 
 
-def kmeans(points, n_clusters):
+def kmeans(points, n_clusters, max_iter=20):
     centers = points[random.sample(range(len(points)), k=n_clusters), :]
+    step = 1
 
-    while True:
+    while step <= max_iter:
         old_centers = centers
         labels = compute_labels(points, centers)
         centers = compute_centers(points, labels)
 
         if np.all(centers == old_centers):
             break
+        step += 1
 
     return labels, centers
 
@@ -55,4 +59,5 @@ def kmeans(points, n_clusters):
 points = np.array(load_data(file=args.file))
 
 random.seed(1707)
-km, centers = kmeans(points=points, n_clusters=args.n_clusters)
+km, centers = kmeans(points=points, n_clusters=args.n_clusters,
+                     max_iter=args.max_iter)

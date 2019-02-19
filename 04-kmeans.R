@@ -15,6 +15,8 @@ parser <- add_argument(parser, "file", type = "character",
                        help = "the file to use for the clustering")
 parser <- add_argument(parser, "--n_clusters", default = 3L, type = "integer",
                        help = "the number of clusters (default: 3)")
+parser <- add_argument(parser, "--max_iter", default = 20L, type = "integer",
+                       help = "the maximum number of iterations (default: 20)")
 parser <- add_argument(parser, "--plot", short = "-p", flag = TRUE,
                        help = "create a plot for each step of the algorithm")
 args <- parse_args(parser)
@@ -61,19 +63,19 @@ plot_kmeans <- function(points, labels, centers, name, ...) {
   dev.off()
 }
 
-kmeans <- function(points, n_clusters) {
+kmeans <- function(points, n_clusters, max_iter = 20L) {
   centers <- points[sample.int(n = nrow(points), size = n_clusters), ]
   step <- 1L
-
-  while (TRUE) {
+  
+  while (step <= max_iter) {
     old_centers <- centers
     labels <- compute_labels(points, centers)
     centers <- compute_centers(points, labels)
-
+    
     if (all(centers == old_centers)) {
       break
     }
-
+    
     if (isTRUE(args[["plot"]])) {
       plot_kmeans(points, labels, old_centers,
                   name = paste0(step, "_a"),
@@ -87,7 +89,7 @@ kmeans <- function(points, n_clusters) {
     }
     step <- step + 1L
   }
-
+  
   return(list(labels = labels, centers = centers))
 }
 
@@ -108,4 +110,5 @@ if (isTRUE(args[["plot"]])) {
 }
 
 set.seed(1707)
-km <- kmeans(points = points, n_clusters = args[["n_clusters"]])
+km <- kmeans(points = points, n_clusters = args[["n_clusters"]],
+             max_iter = args[["max_iter"]])
