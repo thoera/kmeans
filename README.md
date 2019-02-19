@@ -54,7 +54,7 @@ Trois paramètres optionnels peuvent être précisés :
 Par exemple, pour créer 4 clusters, stoper l'algorithme après 10 itérations même en l'absence de convergence et activer la représentation graphique :
 
 ```sh
-python 01-kmeans.py data/<file> --n_clusters 4 --max_iter 20 -p
+python 01-kmeans.py data/<file> --n_clusters 4 --max_iter 10 -p
 ```
 
 Les figures générées seront stockées dans le sous-répertoire `plots`.
