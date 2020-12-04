@@ -21,7 +21,7 @@ L'objectif consiste à implémenter l'algorithme des K-means (ou tout du moins l
 
 L'utilisation d'un [*line profiler*](https://github.com/rkern/line_profiler) permettra de quantifier les gains envisageables permis par l'utilisation d'un "sous-langage" spécialisé pour le calcul scientifique comme `NumPy` par rapport à une implémentation en "pur" Python.
 
-Pour référence, l'implémentation déjà existante de [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) (fortement recommmandée pour tout usage un minimum sérieux) sera évoquée.
+Pour référence, l'implémentation déjà existante de [scikit-learn](https://scikit-learn.org/stable/modules/generated/sklearn.cluster.KMeans.html) (fortement recommandée pour tout usage un minimum sérieux) sera évoquée.
 
 Sera également proposée une implémentation des K-means en "base" R, c'est-à-dire sans package supplémentaire. Cet exemple permettra de mettre en évidence la forte proximité qui peut exister entre les deux langages (en particulier avec la version NumPy).
 
@@ -51,7 +51,7 @@ Trois paramètres optionnels peuvent être précisés :
 * le nombre maximum d'itérations de l'algorithme avec l'argument `--max_iter` (20 par défaut) ;
 * le fait de créer un graphique pour chacune des étapes de l'algorithme avec le flag `--plot` (ou `-p`).
 
-Par exemple, pour créer 4 clusters, stoper l'algorithme après 10 itérations même en l'absence de convergence et activer la représentation graphique :
+Par exemple, pour créer 4 clusters, stopper l'algorithme après 10 itérations même en l'absence de convergence et activer la représentation graphique :
 
 ```sh
 python 01-kmeans.py data/<file> --n_clusters 4 --max_iter 10 -p
@@ -69,7 +69,7 @@ convert -delay 100 -loop 0 $(ls -1v plots/*.png) plots/<file>.gif
 
 L'utilisation du module `line_profiler` (et de son script `kernprof`) rend le profiling de l'algorithme trivial ou presque :
 
-* ajouter le *decorator* `@profile` devant la fonction a profilé (kmeans() dans le cas présent) ;
+* ajouter le *decorator* `@profile` devant la fonction à profiler (`kmeans()` dans le cas présent) ;
 * exécuter la commande suivante :
 
 ```sh
@@ -86,7 +86,7 @@ python 02-kmeans_numpy.py data/<file>
 
 Tout comme précédemment, le nombre de clusters peut être modifié avec l'argument `--n_clusters` (3 par défaut) et le nombre maximum d'itérations avec `--max_iter` (20 par défaut).
 
-Pour profiler l’implémentation avec NumPy (après avoir ajouté le *decorator* `@profile` devant la fonction kmeans()):
+Pour profiler l’implémentation avec NumPy (après avoir ajouté le *decorator* `@profile` devant la fonction `kmeans()`):
 
 ```sh
 kernprof -l -v 02-kmeans_numpy.py data/<file>
